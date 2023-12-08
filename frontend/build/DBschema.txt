@@ -1,0 +1,148 @@
+For Reference
+
+1. Collections:
+
+users
+movies
+showtimes
+theaters
+bookings
+memberships
+
+2. Schemas:
+
+2.1. users collection:
+
+[
+   {
+      "name": "Test1",
+      "username": "test1@gmail.com",
+      "password": 123,
+      "email": "test1@gmail.com",
+      "membershipType": "regular",
+      "membershipExpiry": { "$date": "2024-03-26" },
+      "paymentMethod": "credit_card"
+   }
+]
+
+
+2.2. movies collection:
+
+{
+  _id: ObjectId,
+  title: String,
+  description: String,
+  duration: Number,  // in minutes
+  releaseDate: Date
+}
+
+
+2.3. theaters collection:
+
+{
+  _id: ObjectId,
+  movieId: ObjectId,
+  theaterId: ObjectId,
+  startTime: Date,
+  endTime: Date,
+  price: Number,  // base price, may be adjusted with discounts
+  discount: Number  // for shows before 6pm and Tuesdays
+}
+
+---------
+2.4. showtime collection:
+
+[
+  {
+    "movieId": { "$oid": "651f1f7f03cd97587f48d3e5" }, // The Marvels
+    "theaterId": { "$oid": "651f212203cd97587f49f5ed" },  // AMC DINE-IN Sunnyvale 12
+    "startTime": { "$date": { "$numberLong": "1699660800000" } },
+    "endTime": { "$date": { "$numberLong": "1699664400000" } },
+    "price": 15,
+    "discount": 0
+  },
+  {
+    "movieId": { "$oid": "651f1f7f03cd97587f48d3e6" },  // Guardians of the Galaxy Vol. 3
+    "theaterId": { "$oid": "651f212203cd97587f49f5ee" },  // Sunnyvale Theatre
+    "startTime": { "$date": { "$numberLong": "1699747200000" } },
+    "endTime": { "$date": { "$numberLong": "1699750800000" } },
+    "price": 15,
+    "discount": 2
+  },
+  {
+    "movieId": { "$oid": "651f1f7f03cd97587f48d3e7" }, // Ant-Man and the Wasp: Quantumania (2023)
+    "theaterId": { "$oid": "651f212203cd97587f49f5ef" },  // AMC Mercado 20
+    "startTime": { "$date": { "$numberLong": "1699833600000" } },
+    "endTime": { "$date": { "$numberLong": "1699837200000" } },
+    "price": 15,
+    "discount": 3
+  },
+  {
+    "movieId": { "$oid": "651f1f7f03cd97587f48d3e8" }, // Black Panther: Wakanda Forever (2022)
+    "theaterId": { "$oid": "651f212203cd97587f49f5f0" },  // ShowPlace ICON Theatre
+    "startTime": { "$date": { "$numberLong": "1699916400000" } },
+    "endTime": { "$date": { "$numberLong": "1699920000000" } },
+    "price": 15,
+    "discount": 1
+  }
+]
+--------
+
+
+2.5. bookings collection:
+
+[
+  {
+    "_id": { "$oid": "652f2a8103cd98587f4b28a7" },
+    // Reference to the user from Users collection.
+    "userId": { "$oid": "651f1d8103cd97587f476740" }, // User: Test1
+
+    // Reference to showtime from Showtimes collection.
+    "showtimeId": { "$oid": "651f22d503cd97587f4b25a3" }, // Showtime: The Marvels at AMC DINE-IN Sunnyvale 12
+
+    "numberOfTickets": 2,
+    "totalPrice": 30,
+    "paymentStatus": "completed"
+  },
+  {
+    "_id": { "$oid": "652f2a8103cd98587f4b28a8" },
+    "userId": { "$oid": "651f1d8103cd97587f476741" }, // User: Test2
+    "showtimeId": { "$oid": "651f22d503cd97587f4b25a4" }, // Showtime: Guardians of the Galaxy Vol. 3 at Sunnyvale Theatre
+    "numberOfTickets": 3,
+    "totalPrice": 39,
+    "paymentStatus": "completed"
+  },
+  {
+    "_id": { "$oid": "652f2a8103cd98587f4b28a9" },
+    "userId": { "$oid": "651f1d8103cd97587f476742" }, // User: Test3
+    "showtimeId": { "$oid": "651f22d503cd97587f4b25a5" }, // Showtime: Ant-Man and the Wasp: Quantumania (2023) at AMC Mercado 20
+    "numberOfTickets": 1,
+    "totalPrice": 12,
+    "paymentStatus": "completed"
+  },
+  {
+    "_id": { "$oid": "652f2a8103cd98587f4b28aa" },
+    "userId": { "$oid": "651f1d8103cd97587f476743" }, // User: Test4
+    "showtimeId": { "$oid": "651f22d503cd97587f4b25a6" }, // Showtime: Black Panther: Wakanda Forever (2022) at ShowPlace ICON Theatre
+    "numberOfTickets": 4,
+    "totalPrice": 56,
+    "paymentStatus": "completed"
+  }
+]
+
+------------------
+
+2.6. memberships collection:
+
+[
+   {
+      "type": "premium",
+      "fee": "1"
+   },
+   {
+      "type": "regular",
+      "fee": "0"
+   }
+]
+----
+
